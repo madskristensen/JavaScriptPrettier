@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Include href="KnownImageIds.vsct"/>
+
+  <Commands package="guidPrettierPackage">
+    <Groups>
+      <Group guid="guidPrettierPackageCmdSet" id="MyMenuGroup" priority="0x0300">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidPrettierPackageCmdSet" id="PrettierCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidPrettierPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="FormatDocument"/>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Prettify</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidPrettierPackage" value="{9c23598a-3625-4542-8488-a3777c7dac01}" />
+
+    <GuidSymbol name="guidPrettierPackageCmdSet" value="{1adbe5b8-de7d-446c-85d6-c1c121aacff3}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="PrettierCommandId" value="0x0100" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
