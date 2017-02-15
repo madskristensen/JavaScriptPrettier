@@ -29,7 +29,9 @@
   </Commands>
 
   <KeyBindings>
-    <KeyBinding guid="guidPrettierPackageCmdSet" id="PrettierCommandId" mod1="Control" mod2="Control" key1="K" key2="J" editor="guidVSStd97"/>
+    <KeyBinding guid="guidPrettierPackageCmdSet" id="PrettierCommandId" mod1="Control" mod2="Control" key1="K" key2="J" editor="TypeScriptEditor"/>
+    <KeyBinding guid="guidPrettierPackageCmdSet" id="PrettierCommandId" mod1="Control" mod2="Control" key1="K" key2="J" editor="JavaScriptEditor"/>
+    <KeyBinding guid="guidPrettierPackageCmdSet" id="PrettierCommandId" mod1="Control" mod2="Control" key1="K" key2="J" editor="LegacyJavaScriptEditor"/>
   </KeyBindings>
 
   <Symbols>
@@ -39,5 +41,10 @@
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="PrettierCommandId" value="0x0100" />
     </GuidSymbol>
+
+    <!-- Existing editor guids -->
+    <GuidSymbol name="TypeScriptEditor" value="{0f2454b1-a556-402d-a7d0-1fde7f99dee0}" />
+    <GuidSymbol name="JavaScriptEditor" value="{14d17961-fe51-464d-9111-c4af11d7d99a}" />
+    <GuidSymbol name="LegacyJavaScriptEditor" value="{8B382828-6202-11d1-8870-0000F87579D2}" />
   </Symbols>
 </CommandTable>

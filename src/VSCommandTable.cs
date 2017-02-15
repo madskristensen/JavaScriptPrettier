@@ -14,8 +14,14 @@ namespace JavaScriptPrettier
     {
         public const string guidPrettierPackageString = "9c23598a-3625-4542-8488-a3777c7dac01";
         public const string guidPrettierPackageCmdSetString = "1adbe5b8-de7d-446c-85d6-c1c121aacff3";
+        public const string TypeScriptEditorString = "0f2454b1-a556-402d-a7d0-1fde7f99dee0";
+        public const string JavaScriptEditorString = "14d17961-fe51-464d-9111-c4af11d7d99a";
+        public const string LegacyJavaScriptEditorString = "8b382828-6202-11d1-8870-0000f87579d2";
         public static Guid guidPrettierPackage = new Guid(guidPrettierPackageString);
         public static Guid guidPrettierPackageCmdSet = new Guid(guidPrettierPackageCmdSetString);
+        public static Guid TypeScriptEditor = new Guid(TypeScriptEditorString);
+        public static Guid JavaScriptEditor = new Guid(JavaScriptEditorString);
+        public static Guid LegacyJavaScriptEditor = new Guid(LegacyJavaScriptEditorString);
     }
     /// <summary>
     /// Helper class that encapsulates all CommandIDs uses across VS Package.

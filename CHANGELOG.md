@@ -2,6 +2,7 @@
 
 - [x] Call *FormatDocument* command after run
 - [x] New logo and command icon
+- [x] Scoped keyboard shortcut to JS editor
 - [ ] Document code in comments
 - [ ] Move strings to resource file
 
