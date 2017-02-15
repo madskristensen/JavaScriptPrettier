@@ -1,7 +1,6 @@
 # JavaScript Prettier
 
-<!-- Replace this badge with your own-->
-[![Build status](https://ci.appveyor.com/api/projects/status/hv6uyc059rqbc6fj?svg=true)](https://ci.appveyor.com/project/madskristensen/extensibilitytools)
+[![Build status](https://ci.appveyor.com/api/projects/status/t38jbrjn8akd2jla?svg=true)](https://ci.appveyor.com/project/madskristensen/javascriptprettier)
 
 <!-- Update the VS Gallery link after you upload the VSIX-->
 Download this extension from the [Marketplace](https://visualstudiogallery.msdn.microsoft.com/[GuidFromGallery])
@@ -16,6 +15,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 ## Features
 
 - Prettifies JavaScript
+- Uses [prettier](https://github.com/jlongster/prettier) node module
 
 ### Prettify
 coming soon...
