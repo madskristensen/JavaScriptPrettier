@@ -4,7 +4,6 @@
     {
         public static string[] FileExtensions = { ".js", ".jsx", ".es6" };
 
-        public const string NpmPackageName = "prettier";
-        public const string NpmPackageVersion = "0.17.1";
+        public const string NpmPackages = "prettier@0.17.1";
     }
 }

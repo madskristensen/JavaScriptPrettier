@@ -8,7 +8,7 @@ namespace JavaScriptPrettier
 {
     internal class NodeProcess
     {
-        private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Constants.NpmPackageVersion);
+        private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Constants.NpmPackages.GetHashCode().ToString());
         private static string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
 
         public static bool IsInstalling
@@ -39,7 +39,7 @@ namespace JavaScriptPrettier
                      if (!Directory.Exists(_installDir))
                          Directory.CreateDirectory(_installDir);
 
-                     var start = new ProcessStartInfo("cmd", $"/c npm install {Constants.NpmPackageName}@{Constants.NpmPackageVersion}")
+                     var start = new ProcessStartInfo("cmd", $"/c npm install {Constants.NpmPackages}")
                      {
                          WorkingDirectory = _installDir,
                          UseShellExecute = false,

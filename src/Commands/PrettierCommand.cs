@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Text.Operations;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using EnvDTE;
 
 namespace JavaScriptPrettier
 {
@@ -52,6 +53,10 @@ namespace JavaScriptPrettier
             {
                 edit.Replace(0, _view.TextBuffer.CurrentSnapshot.Length, output);
                 edit.Apply();
+
+                var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+                dte.ExecuteCommand("Edit.FormatDocument");
+
                 undo.Complete();
             }
 
@@ -69,7 +74,7 @@ namespace JavaScriptPrettier
                 }
                 else
                 {
-                    SetText(pCmdText, "Make Prettier (installing npm module...)");
+                    SetText(pCmdText, "Make Prettier (installing npm modules...)");
                     prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_SUPPORTED;
                 }
 
