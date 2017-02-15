@@ -121,7 +121,7 @@
     <value>JavaScript Prettier</value>
   </data>
   <data name="112" xml:space="preserve">
-    <value>Formats JavaScript and JSX files using the 'prettier' algorithm. Works for EcmaScript 6+</value>
+    <value>Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="400" type="System.Resources.ResXFileRef, System.Windows.Forms">

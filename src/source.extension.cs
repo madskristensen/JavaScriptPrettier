@@ -9,7 +9,7 @@ namespace JavaScriptPrettier
     {
         public const string Id = "J1da7ad9e-85b3-4a0c-8e45-b2ae59a575a7";
         public const string Name = "JavaScript Prettier";
-        public const string Description = @"Formats JavaScript and JSX files using the 'prettier' algorithm. Works for EcmaScript 6+";
+        public const string Description = @"Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.";
         public const string Language = "en-US";
         public const string Version = "0.2";
         public const string Author = "Mads Kristensen";

@@ -8,7 +8,7 @@ or get the [CI build](http://vsixgallery.com/extension/J1da7ad9e-85b3-4a0c-8e45-
 
 ---------------------------------------
 
-Formats JavaScript and JSX files using the 'prettier' algorithm. Works for EcmaScript 6+
+Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.
 
 See the [change log](CHANGELOG.md) for changes and road map.
 

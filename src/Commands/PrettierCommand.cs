@@ -5,8 +5,8 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
 using System;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace JavaScriptPrettier
 {
@@ -28,9 +28,9 @@ namespace JavaScriptPrettier
         {
             if (pguidCmdGroup == _commandGroup && nCmdID == _commandId)
             {
-                if (!NpmInstaller.IsInstalling)
+                if (NodeProcess.IsReadyToExecute())
                 {
-                    ThreadHelper.JoinableTaskFactory.RunAsync(Run);
+                    ThreadHelper.JoinableTaskFactory.RunAsync(MakePrettier);
                 }
 
                 return VSConstants.S_OK;
@@ -39,16 +39,16 @@ namespace JavaScriptPrettier
             return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
         }
 
-        private async Task<bool> Run()
+        private async Task<bool> MakePrettier()
         {
             string input = _view.TextBuffer.CurrentSnapshot.GetText();
-            string output = await NpmInstaller.Execute(input);
+            string output = await NodeProcess.ExecuteProcess(input);
 
-            if (string.IsNullOrEmpty(output))
+            if (string.IsNullOrEmpty(output) || input == output)
                 return false;
 
             using (ITextEdit edit = _view.TextBuffer.CreateEdit())
-            using (ITextUndoTransaction undo = _undoManager.TextBufferUndoHistory.CreateTransaction("Prettify"))
+            using (ITextUndoTransaction undo = _undoManager.TextBufferUndoHistory.CreateTransaction("Make Prettier"))
             {
                 edit.Replace(0, _view.TextBuffer.CurrentSnapshot.Length, output);
                 edit.Apply();
@@ -62,7 +62,7 @@ namespace JavaScriptPrettier
         {
             if (pguidCmdGroup == _commandGroup && prgCmds[0].cmdID == _commandId)
             {
-                if (NpmInstaller.IsInstalled())
+                if (NodeProcess.IsReadyToExecute())
                 {
                     SetText(pCmdText, "Make Prettier");
                     prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
@@ -79,7 +79,7 @@ namespace JavaScriptPrettier
             return Next.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
 
-        public static void SetText(IntPtr pCmdTextInt, string text)
+        private static void SetText(IntPtr pCmdTextInt, string text)
         {
             var pCmdText = (OLECMDTEXT)Marshal.PtrToStructure(pCmdTextInt, typeof(OLECMDTEXT));
             char[] menuText = text.ToCharArray();
@@ -100,6 +100,5 @@ namespace JavaScriptPrettier
             // write out the length +1 for the null char
             Marshal.WriteInt32((IntPtr)((long)pCmdTextInt + (long)offsetToCwActual), maxChars + 1);
         }
-
     }
 }

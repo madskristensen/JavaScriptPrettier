@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.Editor;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
@@ -8,8 +10,6 @@ using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace JavaScriptPrettier
 {
@@ -44,7 +44,7 @@ namespace JavaScriptPrettier
 
             AddCommandFilter(textViewAdapter, new PrettierCommand(view, undoManager));
 
-            if (!NpmInstaller.IsInstalled())
+            if (!NodeProcess.IsReadyToExecute())
             {
                 await Install();
             }
@@ -60,16 +60,18 @@ namespace JavaScriptPrettier
             statusbar.Animation(1, icon);
             statusbar.FreezeOutput(1);
 
-            await NpmInstaller.EnsurePackageInstalled();
+            bool success = await NodeProcess.EnsurePackageInstalled();
+            string status = success ? "Done" : "Failed";
 
             statusbar.FreezeOutput(0);
-            statusbar.SetText("Installing prettier npm module... Done");
+            statusbar.SetText($"Installing prettier npm module... {status}");
             statusbar.Animation(0, icon);
             statusbar.FreezeOutput(1);
         }
 
         private void AddCommandFilter(IVsTextView textViewAdapter, BaseCommand command)
         {
+
             textViewAdapter.AddCommandFilter(command, out var next);
             command.Next = next;
         }

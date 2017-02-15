@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace JavaScriptPrettier
 {
-    internal class NpmInstaller
+    internal class NodeProcess
     {
         private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Constants.NpmPackageVersion);
+        private static string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
 
         public static bool IsInstalling
         {
@@ -16,9 +17,9 @@ namespace JavaScriptPrettier
             private set;
         }
 
-        public static bool IsInstalled()
+        public static bool IsReadyToExecute()
         {
-            return File.Exists(Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd"));
+            return File.Exists(_executable);
         }
 
         public static async Task<bool> EnsurePackageInstalled()
@@ -26,14 +27,17 @@ namespace JavaScriptPrettier
             if (IsInstalling)
                 return false;
 
-            if (IsInstalled())
+            if (IsReadyToExecute())
                 return true;
 
             bool success = await Task.Run(() =>
              {
+                 IsInstalling = true;
+
                  try
                  {
-                     Directory.CreateDirectory(_installDir);
+                     if (!Directory.Exists(_installDir))
+                         Directory.CreateDirectory(_installDir);
 
                      var start = new ProcessStartInfo("cmd", $"/c npm install {Constants.NpmPackageName}@{Constants.NpmPackageVersion}")
                      {
@@ -48,6 +52,7 @@ namespace JavaScriptPrettier
                      using (var proc = Process.Start(start))
                      {
                          proc.WaitForExit();
+                         return proc.ExitCode == 0;
                      }
                  }
                  catch (Exception ex)
@@ -55,21 +60,22 @@ namespace JavaScriptPrettier
                      Logger.Log(ex);
                      return false;
                  }
-
-                 return true;
+                 finally
+                 {
+                     IsInstalling = false;
+                 }
              });
 
             return success;
         }
 
-        internal static async Task<string> Execute(string input)
+        public static async Task<string> ExecuteProcess(string input)
         {
             if (!await EnsurePackageInstalled())
                 return null;
 
-            var start = new ProcessStartInfo("cmd", $"/c prettier --stdin")
+            var start = new ProcessStartInfo("cmd", $"/c \"{_executable}\" --stdin")
             {
-                WorkingDirectory = _installDir,
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
@@ -106,9 +112,9 @@ namespace JavaScriptPrettier
             }
         }
 
-        public static void ModifyPathVariable(ProcessStartInfo start)
+        private static void ModifyPathVariable(ProcessStartInfo start)
         {
-            string path = ".\\node_modules\\.bin" + ";" + start.EnvironmentVariables["PATH"];
+            string path = start.EnvironmentVariables["PATH"];
 
             var process = Process.GetCurrentProcess();
             string ideDir = Path.GetDirectoryName(process.MainModule.FileName);
@@ -133,6 +139,5 @@ namespace JavaScriptPrettier
 
             start.EnvironmentVariables["PATH"] = path;
         }
-
     }
 }

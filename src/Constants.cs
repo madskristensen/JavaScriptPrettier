@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JavaScriptPrettier
+﻿namespace JavaScriptPrettier
 {
     public class Constants
     {
-        public static string[] FileExtensions = { ".js", ".jsx" };
+        public static string[] FileExtensions = { ".js", ".jsx", ".es6" };
+
         public const string NpmPackageName = "prettier";
-        public const string NpmPackageVersion = "0.17.0";
+        public const string NpmPackageVersion = "0.17.1";
     }
 }
