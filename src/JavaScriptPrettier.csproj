@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\PrettierCommand.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Commands\CommandRegistration.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="NodeProcess.cs" />
