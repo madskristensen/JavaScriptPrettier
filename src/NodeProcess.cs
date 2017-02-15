@@ -82,6 +82,8 @@ namespace JavaScriptPrettier
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
                 RedirectStandardInput = true,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8,
             };
 
             ModifyPathVariable(start);

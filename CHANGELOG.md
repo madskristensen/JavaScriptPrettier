@@ -1,5 +1,6 @@
 # Road map
 
+- [x] Added UTF-8 encoding support
 - [ ] Document code in comments
 - [ ] Move strings to resource file
 
