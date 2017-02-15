@@ -31,7 +31,7 @@ namespace JavaScriptPrettier
         {
             if (pguidCmdGroup == _commandGroup && nCmdID == _commandId)
             {
-                if (_node.IsReadyToExecute())
+                if (_node != null && _node.IsReadyToExecute())
                 {
                     ThreadHelper.JoinableTaskFactory.RunAsync(MakePrettier);
                 }
@@ -69,15 +69,18 @@ namespace JavaScriptPrettier
         {
             if (pguidCmdGroup == _commandGroup && prgCmds[0].cmdID == _commandId)
             {
-                if (_node.IsReadyToExecute())
+                if (_node != null)
                 {
-                    SetText(pCmdText, "Make Prettier");
-                    prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
-                }
-                else
-                {
-                    SetText(pCmdText, "Make Prettier (installing npm modules...)");
-                    prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_SUPPORTED;
+                    if (_node.IsReadyToExecute())
+                    {
+                        SetText(pCmdText, "Make Prettier");
+                        prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
+                    }
+                    else
+                    {
+                        SetText(pCmdText, "Make Prettier (installing npm modules...)");
+                        prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_SUPPORTED;
+                    }
                 }
 
                 return VSConstants.S_OK;
