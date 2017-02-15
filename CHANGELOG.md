@@ -1,7 +1,8 @@
 # Road map
 
 - [x] Install npm modules
-- [x] Command on JavaScript context menu
+- [x] Command on JavaScript context menu\
+- [x] Updated readme.md
 - [ ] Document code in comments
 
 Features that have a checkmark are complete and available for

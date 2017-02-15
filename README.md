@@ -18,7 +18,36 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Uses [prettier](https://github.com/jlongster/prettier) node module
 
 ### Prettify
-coming soon...
+This extension calls the [prettier](https://github.com/jlongster/prettier) node module behind the scenes to format any JavaScript document to its standards.
+
+For example, take the following code:
+
+```js
+foo(arg1, arg2, arg3, arg4);
+```
+
+That looks like the right way to format it. However, we've all run
+into this situation:
+
+```js
+foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());
+```
+
+Suddenly our previous format for calling function breaks down because
+this is too long. What you would probably do is this instead:
+
+```js
+foo(
+  reallyLongArg(),
+  omgSoManyParameters(),
+  IShouldRefactorThis(),
+  isThereSeriouslyAnotherOne()
+);
+```
+
+Invoke the command from the context menu in the JavaScript editor.
+
+![Context Menu](art/context-menu.png)
 
 ## Contribute
 Check out the [contribution guidelines](.github/CONTRIBUTING.md)
