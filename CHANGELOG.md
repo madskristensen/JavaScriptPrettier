@@ -1,8 +1,5 @@
 # Road map
 
-- [x] Call *FormatDocument* command after run
-- [x] New logo and command icon
-- [x] Scoped keyboard shortcut to JS editor
 - [ ] Document code in comments
 - [ ] Move strings to resource file
 
@@ -14,6 +11,12 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.6
+
+- [x] Call *FormatDocument* command after run
+- [x] New logo and command icon
+- [x] Scoped keyboard shortcut to JS editor
 
 ## 0.5
 
