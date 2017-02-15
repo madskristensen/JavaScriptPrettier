@@ -8,21 +8,23 @@ namespace JavaScriptPrettier
 {
     internal class NodeProcess
     {
-        private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Constants.NpmPackages.GetHashCode().ToString());
+        public const string Packages = "prettier";
+
+        private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
         private static string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
 
-        public static bool IsInstalling
+        public bool IsInstalling
         {
             get;
             private set;
         }
 
-        public static bool IsReadyToExecute()
+        public bool IsReadyToExecute()
         {
             return File.Exists(_executable);
         }
 
-        public static async Task<bool> EnsurePackageInstalled()
+        public async Task<bool> EnsurePackageInstalled()
         {
             if (IsInstalling)
                 return false;
@@ -39,7 +41,7 @@ namespace JavaScriptPrettier
                      if (!Directory.Exists(_installDir))
                          Directory.CreateDirectory(_installDir);
 
-                     var start = new ProcessStartInfo("cmd", $"/c npm install {Constants.NpmPackages}")
+                     var start = new ProcessStartInfo("cmd", $"/c npm install {Packages}")
                      {
                          WorkingDirectory = _installDir,
                          UseShellExecute = false,
@@ -69,7 +71,7 @@ namespace JavaScriptPrettier
             return success;
         }
 
-        public static async Task<string> ExecuteProcess(string input)
+        public async Task<string> ExecuteProcess(string input)
         {
             if (!await EnsurePackageInstalled())
                 return null;

@@ -19,6 +19,8 @@ namespace JavaScriptPrettier
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CommandRegistration : IVsTextViewCreationListener
     {
+        public static string[] FileExtensions { get; } = { ".js", ".jsx", ".es6" };
+
         [Import]
         private IVsEditorAdaptersFactoryService AdaptersFactory { get; set; }
 
@@ -37,35 +39,33 @@ namespace JavaScriptPrettier
 
             string ext = Path.GetExtension(doc.FilePath);
 
-            if (!Constants.FileExtensions.Contains(ext, StringComparer.OrdinalIgnoreCase))
+            if (!FileExtensions.Contains(ext, StringComparer.OrdinalIgnoreCase))
                 return;
 
             ITextBufferUndoManager undoManager = UndoProvider.GetTextBufferUndoManager(view.TextBuffer);
+            NodeProcess node = view.Properties.GetOrCreateSingletonProperty(() => new NodeProcess());
 
-            AddCommandFilter(textViewAdapter, new PrettierCommand(view, undoManager));
+            AddCommandFilter(textViewAdapter, new PrettierCommand(view, undoManager, node));
 
-            if (!NodeProcess.IsReadyToExecute())
+            if (!node.IsReadyToExecute())
             {
-                await Install();
+                await Install(node);
             }
         }
 
-        private static async System.Threading.Tasks.Task Install()
+        private static async System.Threading.Tasks.Task Install(NodeProcess node)
         {
             var statusbar = (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar));
-            object icon = (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch;
 
             statusbar.FreezeOutput(0);
-            statusbar.SetText("Installing prettier npm module...");
-            statusbar.Animation(1, icon);
+            statusbar.SetText($"Installing {NodeProcess.Packages} npm module...");
             statusbar.FreezeOutput(1);
 
-            bool success = await NodeProcess.EnsurePackageInstalled();
+            bool success = await node.EnsurePackageInstalled();
             string status = success ? "Done" : "Failed";
 
             statusbar.FreezeOutput(0);
-            statusbar.SetText($"Installing prettier npm module... {status}");
-            statusbar.Animation(0, icon);
+            statusbar.SetText($"Installing {NodeProcess.Packages} npm module... {status}");
             statusbar.FreezeOutput(1);
         }
 
