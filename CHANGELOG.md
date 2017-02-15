@@ -1,6 +1,7 @@
 # Road map
 
 - [x] Call *FormatDocument* command after run
+- [x] New logo and command icon
 - [ ] Document code in comments
 - [ ] Move strings to resource file
 

@@ -15,7 +15,7 @@
     <Buttons>
       <Button guid="guidPrettierPackageCmdSet" id="PrettierCommandId" priority="0x0100" type="Button">
         <Parent guid="guidPrettierPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="AlignToGrid"/>
+        <Icon guid="ImageCatalogGuid" id="RGSRegistrationScript"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
