@@ -15,17 +15,22 @@
     <Buttons>
       <Button guid="guidPrettierPackageCmdSet" id="PrettierCommandId" priority="0x0100" type="Button">
         <Parent guid="guidPrettierPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="FormatDocument"/>
+        <Icon guid="ImageCatalogGuid" id="AlignToGrid"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>Prettify</ButtonText>
+          <ButtonText>Make Prettier</ButtonText>
         </Strings>
       </Button>
     </Buttons>
   </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="guidPrettierPackageCmdSet" id="PrettierCommandId" mod1="Control" mod2="Control" key1="K" key2="J" editor="guidVSStd97"/>
+  </KeyBindings>
 
   <Symbols>
     <GuidSymbol name="guidPrettierPackage" value="{9c23598a-3625-4542-8488-a3777c7dac01}" />

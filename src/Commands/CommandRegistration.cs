@@ -15,6 +15,7 @@ namespace JavaScriptPrettier
 {
     [Export(typeof(IVsTextViewCreationListener))]
     [ContentType("TypeScript")]
+    [ContentType("JavaScript")]
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CommandRegistration : IVsTextViewCreationListener
     {

@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
 using System;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace JavaScriptPrettier
 {
@@ -63,10 +64,12 @@ namespace JavaScriptPrettier
             {
                 if (NpmInstaller.IsInstalled())
                 {
+                    SetText(pCmdText, "Make Prettier");
                     prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
                 }
                 else
                 {
+                    SetText(pCmdText, "Make Prettier (installing npm module...)");
                     prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_SUPPORTED;
                 }
 
@@ -75,5 +78,28 @@ namespace JavaScriptPrettier
 
             return Next.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
+
+        public static void SetText(IntPtr pCmdTextInt, string text)
+        {
+            var pCmdText = (OLECMDTEXT)Marshal.PtrToStructure(pCmdTextInt, typeof(OLECMDTEXT));
+            char[] menuText = text.ToCharArray();
+
+            // Get the offset to the rgsz param.  This is where we will stuff our text
+            IntPtr offset = Marshal.OffsetOf(typeof(OLECMDTEXT), "rgwz");
+            IntPtr offsetToCwActual = Marshal.OffsetOf(typeof(OLECMDTEXT), "cwActual");
+
+            // The max chars we copy is our string, or one less than the buffer size,
+            // since we need a null at the end.
+            int maxChars = Math.Min((int)pCmdText.cwBuf - 1, menuText.Length);
+
+            Marshal.Copy(menuText, 0, (IntPtr)((long)pCmdTextInt + (long)offset), maxChars);
+
+            // append a null character
+            Marshal.WriteInt16((IntPtr)((long)pCmdTextInt + (long)offset + maxChars * 2), 0);
+
+            // write out the length +1 for the null char
+            Marshal.WriteInt32((IntPtr)((long)pCmdTextInt + (long)offsetToCwActual), maxChars + 1);
+        }
+
     }
 }
