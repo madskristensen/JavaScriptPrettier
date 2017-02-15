@@ -1,9 +1,7 @@
 # Road map
 
-- [x] Install npm modules
-- [x] Command on JavaScript context menu\
-- [x] Updated readme.md
 - [ ] Document code in comments
+- [ ] Move strings to resource file
 
 Features that have a checkmark are complete and available for
 download in the
@@ -14,6 +12,9 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
-## 1.0
+## 0.5
 
-- [x] not yet
+- [x] Initial release
+- [x] Install npm modules
+- [x] Command on JavaScript context menu
+- [x] Updated readme.md
