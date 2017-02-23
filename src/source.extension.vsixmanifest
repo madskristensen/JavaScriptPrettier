@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-  <Metadata>
-    <Identity Id="J1da7ad9e-85b3-4a0c-8e45-b2ae59a575a7" Version="0.6" Language="en-US" Publisher="Mads Kristensen" />
-    <DisplayName>JavaScript Prettier</DisplayName>
-    <Description xml:space="preserve">Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.</Description>
-    <MoreInfo>https://github.com/madskristensen/JavaScriptPrettier</MoreInfo>
-    <License>Resources\LICENSE</License>
-    <ReleaseNotes>https://github.com/madskristensen/JavaScriptPrettier/blob/master/CHANGELOG.md</ReleaseNotes>
-    <Icon>Resources\Icon.png</Icon>
-    <PreviewImage>Resources\Icon.png</PreviewImage>
-    <Tags>JavaScript, JSX, EcmaScript, formatting</Tags>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="14.0" />
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="15.0" />
-  </Installation>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
-  </Assets>
-  <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
-  </Prerequisites>
+    <Metadata>
+        <Identity Id="J1da7ad9e-85b3-4a0c-8e45-b2ae59a575a7" Version="0.6" Language="en-US" Publisher="Mads Kristensen" />
+        <DisplayName>JavaScript Prettier</DisplayName>
+        <Description xml:space="preserve">Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.</Description>
+        <MoreInfo>https://github.com/madskristensen/JavaScriptPrettier</MoreInfo>
+        <License>Resources\LICENSE</License>
+        <ReleaseNotes>https://github.com/madskristensen/JavaScriptPrettier/blob/master/CHANGELOG.md</ReleaseNotes>
+        <Icon>Resources\Icon.png</Icon>
+        <PreviewImage>Resources\Icon.png</PreviewImage>
+        <Tags>JavaScript, JSX, EcmaScript, formatting</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="14.0" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="15.0" />
+    </Installation>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.Web" Version="[15.0,16.0)" DisplayName="ASP.NET and web development tools" />
+    </Prerequisites>
 </PackageManifest>
