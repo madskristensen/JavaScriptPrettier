@@ -32,43 +32,52 @@ namespace JavaScriptPrettier
             if (IsReadyToExecute())
                 return true;
 
-            bool success = await Task.Run(() =>
-             {
-                 IsInstalling = true;
+            IsInstalling = true;
 
-                 try
-                 {
-                     if (!Directory.Exists(_installDir))
-                         Directory.CreateDirectory(_installDir);
+            try
+            {
+                if (!Directory.Exists(_installDir))
+                    Directory.CreateDirectory(_installDir);
 
-                     var start = new ProcessStartInfo("cmd", $"/c npm install {Packages}")
-                     {
-                         WorkingDirectory = _installDir,
-                         UseShellExecute = false,
-                         RedirectStandardOutput = true,
-                         CreateNoWindow = true,
-                     };
+                Logger.Log($"npm install {Packages} (this can take a few minutes)");
 
-                     ModifyPathVariable(start);
+                var start = new ProcessStartInfo("cmd", $"/c npm install {Packages}")
+                {
+                    WorkingDirectory = _installDir,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    StandardOutputEncoding = Encoding.UTF8,
+                    StandardErrorEncoding = Encoding.UTF8,
+                };
 
-                     using (var proc = Process.Start(start))
-                     {
-                         proc.WaitForExit();
-                         return proc.ExitCode == 0;
-                     }
-                 }
-                 catch (Exception ex)
-                 {
-                     Logger.Log(ex);
-                     return false;
-                 }
-                 finally
-                 {
-                     IsInstalling = false;
-                 }
-             });
+                ModifyPathVariable(start);
 
-            return success;
+                using (var proc = Process.Start(start))
+                {
+                    string output = await proc.StandardOutput.ReadToEndAsync();
+                    string error = await proc.StandardError.ReadToEndAsync();
+
+                    if (!string.IsNullOrEmpty(output))
+                        Logger.Log(output);
+
+                    if (!string.IsNullOrEmpty(error))
+                        Logger.Log(error);
+
+                    proc.WaitForExit();
+                    return proc.ExitCode == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+                return false;
+            }
+            finally
+            {
+                IsInstalling = false;
+            }
         }
 
         public async Task<string> ExecuteProcess(string input)
@@ -82,15 +91,15 @@ namespace JavaScriptPrettier
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
                 RedirectStandardInput = true,
+                RedirectStandardError = true,
                 StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8,
             };
 
             ModifyPathVariable(start);
 
             try
             {
-                var sb = new StringBuilder();
-
                 using (var proc = Process.Start(start))
                 {
                     using (StreamWriter stream = proc.StandardInput)
@@ -98,14 +107,14 @@ namespace JavaScriptPrettier
                         await stream.WriteAsync(input);
                     }
 
-                    while (!proc.StandardOutput.EndOfStream)
-                    {
-                        string line = await proc.StandardOutput.ReadLineAsync();
-                        sb.AppendLine(line);
-                    }
+                    string output = await proc.StandardOutput.ReadToEndAsync();
+                    string error = await proc.StandardError.ReadToEndAsync();
+
+                    if (!string.IsNullOrEmpty(error))
+                        Logger.Log(error);
 
                     proc.WaitForExit();
-                    return sb.ToString();
+                    return output;
                 }
             }
             catch (Exception ex)
@@ -131,7 +140,6 @@ namespace JavaScriptPrettier
                 if (Directory.Exists(rc2Preview1Path))
                 {
                     path += ";" + rc2Preview1Path;
-                    path += ";" + rc2Preview1Path + "\\git";
                 }
                 else
                 {
