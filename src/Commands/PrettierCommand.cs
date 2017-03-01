@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Text.Operations;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace JavaScriptPrettier
 {
@@ -19,12 +20,14 @@ namespace JavaScriptPrettier
         private IWpfTextView _view;
         private ITextBufferUndoManager _undoManager;
         private NodeProcess _node;
+        private Encoding _encoding;
 
-        public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, NodeProcess node)
+        public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, NodeProcess node, Encoding encoding)
         {
             _view = view;
             _undoManager = undoManager;
             _node = node;
+            _encoding = encoding;
         }
 
         public override int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
@@ -45,7 +48,7 @@ namespace JavaScriptPrettier
         private async Task<bool> MakePrettier()
         {
             string input = _view.TextBuffer.CurrentSnapshot.GetText();
-            string output = await _node.ExecuteProcess(input);
+            string output = await _node.ExecuteProcess(input, _encoding);
 
             if (string.IsNullOrEmpty(output) || input == output)
                 return false;

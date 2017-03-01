@@ -80,7 +80,7 @@ namespace JavaScriptPrettier
             }
         }
 
-        public async Task<string> ExecuteProcess(string input)
+        public async Task<string> ExecuteProcess(string input, Encoding encoding)
         {
             if (!await EnsurePackageInstalled())
                 return null;
@@ -92,8 +92,8 @@ namespace JavaScriptPrettier
                 RedirectStandardOutput = true,
                 RedirectStandardInput = true,
                 RedirectStandardError = true,
-                StandardOutputEncoding = Encoding.UTF8,
                 StandardErrorEncoding = Encoding.UTF8,
+                StandardOutputEncoding = encoding,
             };
 
             ModifyPathVariable(start);
@@ -102,7 +102,7 @@ namespace JavaScriptPrettier
             {
                 using (var proc = Process.Start(start))
                 {
-                    using (StreamWriter stream = proc.StandardInput)
+                    using (var stream = new StreamWriter(proc.StandardInput.BaseStream, encoding))
                     {
                         await stream.WriteAsync(input);
                     }
