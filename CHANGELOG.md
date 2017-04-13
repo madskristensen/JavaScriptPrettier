@@ -12,7 +12,7 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
-## 0.6
+## 1.0
 - [x] Added UTF-8 encoding support
 - [x] Upgraded to prettier version 1.0.2
 
