@@ -14,7 +14,7 @@ on the official Visual Studio extension gallery.
 
 ## 1.0
 - [x] Added UTF-8 encoding support
-- [x] Upgraded to prettier version 1.0.2
+- [x] Upgraded to [prettier](https://github.com/jlongster/prettier) version 1.0.2
 
 
 ## 0.6
