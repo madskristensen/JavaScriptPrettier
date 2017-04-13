@@ -1,6 +1,5 @@
 # Road map
 
-- [x] Added UTF-8 encoding support
 - [ ] Document code in comments
 - [ ] Move strings to resource file
 
@@ -12,6 +11,11 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.6
+- [x] Added UTF-8 encoding support
+- [x] Upgraded to prettier version 1.0.2
+
 
 ## 0.6
 
