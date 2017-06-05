@@ -2,6 +2,8 @@
 
 - [ ] Document code in comments
 - [ ] Move strings to resource file
+- [x] Updated to prettier@1.4.2
+- [x] Support for TypeScript (.ts and .tsx)
 
 Features that have a checkmark are complete and available for
 download in the

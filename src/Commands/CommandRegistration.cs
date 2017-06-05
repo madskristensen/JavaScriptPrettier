@@ -19,7 +19,7 @@ namespace JavaScriptPrettier
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CommandRegistration : IVsTextViewCreationListener
     {
-        public static string[] FileExtensions { get; } = { ".js", ".jsx", ".es6" };
+        public static string[] FileExtensions { get; } = { ".js", ".jsx", ".es6", ".ts", ".tsx" };
 
         [Import]
         private IVsEditorAdaptersFactoryService AdaptersFactory { get; set; }
