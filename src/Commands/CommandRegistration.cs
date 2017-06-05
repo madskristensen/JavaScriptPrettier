@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Editor;
+﻿using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
@@ -6,10 +7,6 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
-using System;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
 
 namespace JavaScriptPrettier
 {
@@ -19,8 +16,6 @@ namespace JavaScriptPrettier
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     internal sealed class CommandRegistration : IVsTextViewCreationListener
     {
-        public static string[] FileExtensions { get; } = { ".js", ".jsx", ".es6", ".ts", ".tsx" };
-
         [Import]
         private IVsEditorAdaptersFactoryService AdaptersFactory { get; set; }
 
@@ -35,11 +30,6 @@ namespace JavaScriptPrettier
             IWpfTextView view = AdaptersFactory.GetWpfTextView(textViewAdapter);
 
             if (!DocumentService.TryGetTextDocument(view.TextBuffer, out ITextDocument doc))
-                return;
-
-            string ext = Path.GetExtension(doc.FilePath);
-
-            if (!FileExtensions.Contains(ext, StringComparer.OrdinalIgnoreCase))
                 return;
 
             ITextBufferUndoManager undoManager = UndoProvider.GetTextBufferUndoManager(view.TextBuffer);

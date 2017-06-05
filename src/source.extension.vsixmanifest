@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="J1da7ad9e-85b3-4a0c-8e45-b2ae59a575a7" Version="1.0" Language="en-US" Publisher="Mads Kristensen" />
+        <Identity Id="J1da7ad9e-85b3-4a0c-8e45-b2ae59a575a7" Version="1.1" Language="en-US" Publisher="Mads Kristensen" />
         <DisplayName>JavaScript Prettier</DisplayName>
         <Description xml:space="preserve">Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.</Description>
         <MoreInfo>https://github.com/madskristensen/JavaScriptPrettier</MoreInfo>

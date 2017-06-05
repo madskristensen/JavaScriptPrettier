@@ -2,8 +2,8 @@
 
 - [ ] Document code in comments
 - [ ] Move strings to resource file
-- [x] Updated to prettier@1.4.2
-- [x] Support for TypeScript (.ts and .tsx)
+- [ ] Execute on document save
+- [ ] Execute on document format
 
 Features that have a checkmark are complete and available for
 download in the
@@ -14,10 +14,15 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.1
+
+- [x] Updated to prettier@1.4.2
+- [x] Support for TypeScript (.ts and .tsx)
+
 ## 1.0
+
 - [x] Added UTF-8 encoding support
 - [x] Upgraded to [prettier](https://github.com/jlongster/prettier) version 1.0.2
-
 
 ## 0.6
 
