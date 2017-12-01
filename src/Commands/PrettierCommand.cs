@@ -58,10 +58,7 @@ namespace JavaScriptPrettier
             {
                 edit.Replace(0, _view.TextBuffer.CurrentSnapshot.Length, output);
                 edit.Apply();
-
-                var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-                dte.ExecuteCommand("Edit.FormatDocument");
-
+                
                 undo.Complete();
             }
 
