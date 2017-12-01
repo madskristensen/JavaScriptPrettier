@@ -21,13 +21,15 @@ namespace JavaScriptPrettier
         private ITextBufferUndoManager _undoManager;
         private NodeProcess _node;
         private Encoding _encoding;
+        private string _filePath;
 
-        public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, NodeProcess node, Encoding encoding)
+        public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, NodeProcess node, Encoding encoding, string filePath)
         {
             _view = view;
             _undoManager = undoManager;
             _node = node;
             _encoding = encoding;
+            _filePath = filePath;
         }
 
         public override int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
@@ -48,7 +50,7 @@ namespace JavaScriptPrettier
         private async Task<bool> MakePrettier()
         {
             string input = _view.TextBuffer.CurrentSnapshot.GetText();
-            string output = await _node.ExecuteProcess(input, _encoding);
+            string output = await _node.ExecuteProcess(input, _encoding, _filePath);
 
             if (string.IsNullOrEmpty(output) || input == output)
                 return false;
@@ -58,10 +60,7 @@ namespace JavaScriptPrettier
             {
                 edit.Replace(0, _view.TextBuffer.CurrentSnapshot.Length, output);
                 edit.Apply();
-
-                var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-                dte.ExecuteCommand("Edit.FormatDocument");
-
+                
                 undo.Complete();
             }
 

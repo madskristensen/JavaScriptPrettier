@@ -8,7 +8,7 @@ namespace JavaScriptPrettier
 {
     internal class NodeProcess
     {
-        public const string Packages = "prettier@1.4.2";
+        public const string Packages = "prettier@1.8.2";
 
         private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
         private static string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
@@ -80,12 +80,14 @@ namespace JavaScriptPrettier
             }
         }
 
-        public async Task<string> ExecuteProcess(string input, Encoding encoding)
+        public async Task<string> ExecuteProcess(string input, Encoding encoding, string filePath)
         {
             if (!await EnsurePackageInstalled())
                 return null;
 
-            var start = new ProcessStartInfo("cmd", $"/c \"{_executable}\" --stdin")
+            var command = $"/c \"\"{_executable}\" --stdin-filepath \"{filePath}\" --stdin\"";
+
+            var start = new ProcessStartInfo("cmd", command)
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
