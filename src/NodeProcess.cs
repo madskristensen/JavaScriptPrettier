@@ -80,12 +80,14 @@ namespace JavaScriptPrettier
             }
         }
 
-        public async Task<string> ExecuteProcess(string input, Encoding encoding)
+        public async Task<string> ExecuteProcess(string input, Encoding encoding, string filePath)
         {
             if (!await EnsurePackageInstalled())
                 return null;
 
-            var start = new ProcessStartInfo("cmd", $"/c \"{_executable}\" --stdin")
+            var command = $"/c \"\"{_executable}\" --stdin-filepath \"{filePath}\" --stdin\"";
+
+            var start = new ProcessStartInfo("cmd", command)
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
