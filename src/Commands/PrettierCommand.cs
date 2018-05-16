@@ -52,6 +52,8 @@ namespace JavaScriptPrettier
             string input = _view.TextBuffer.CurrentSnapshot.GetText();
             string output = await _node.ExecuteProcess(input, _encoding, _filePath);
 
+            var snapshotPoint = _view.Selection.ActivePoint;
+
             if (string.IsNullOrEmpty(output) || input == output)
                 return false;
 
@@ -60,9 +62,13 @@ namespace JavaScriptPrettier
             {
                 edit.Replace(0, _view.TextBuffer.CurrentSnapshot.Length, output);
                 edit.Apply();
-                
+
                 undo.Complete();
             }
+
+            var newSnapshotPoint = new SnapshotPoint(_view.TextBuffer.CurrentSnapshot, snapshotPoint.Position.Position);
+            _view.Caret.MoveTo(newSnapshotPoint);
+            _view.ViewScroller.EnsureSpanVisible(new SnapshotSpan(newSnapshotPoint, 0));
 
             return true;
         }
