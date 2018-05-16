@@ -8,7 +8,7 @@ namespace JavaScriptPrettier
 {
     internal class NodeProcess
     {
-        public const string Packages = "prettier@1.8.2";
+        public const string Packages = "prettier@1.12.1";
 
         private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
         private static string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
