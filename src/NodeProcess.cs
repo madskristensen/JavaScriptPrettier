@@ -39,9 +39,9 @@ namespace JavaScriptPrettier
                 if (!Directory.Exists(_installDir))
                     Directory.CreateDirectory(_installDir);
 
-                Logger.Log($"npm install {Packages} (this can take a few minutes)");
+                Logger.Log($"npm init -y & npm install {Packages} (this can take a few minutes)");
 
-                var start = new ProcessStartInfo("cmd", $"/c npm install {Packages}")
+                var start = new ProcessStartInfo("cmd", $"/c npm init -y & npm install {Packages}")
                 {
                     WorkingDirectory = _installDir,
                     UseShellExecute = false,
