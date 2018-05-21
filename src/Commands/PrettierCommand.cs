@@ -20,8 +20,8 @@ namespace JavaScriptPrettier
         private IWpfTextView _view;
         private ITextBufferUndoManager _undoManager;
         private NodeProcess _node;
-        private Encoding _encoding;
-        private string _filePath;
+        private readonly Encoding _encoding;
+        private readonly string _filePath;
 
         public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, NodeProcess node, Encoding encoding, string filePath)
         {
@@ -34,11 +34,13 @@ namespace JavaScriptPrettier
 
         public override int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (pguidCmdGroup == _commandGroup && nCmdID == _commandId)
             {
                 if (_node != null && _node.IsReadyToExecute())
                 {
-                    ThreadHelper.JoinableTaskFactory.RunAsync(MakePrettier);
+                    ThreadHelper.JoinableTaskFactory.RunAsync(MakePrettierAsync);
                 }
 
                 return VSConstants.S_OK;
@@ -47,12 +49,12 @@ namespace JavaScriptPrettier
             return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
         }
 
-        private async Task<bool> MakePrettier()
+        private async Task<bool> MakePrettierAsync()
         {
             string input = _view.TextBuffer.CurrentSnapshot.GetText();
-            string output = await _node.ExecuteProcess(input, _encoding, _filePath);
+            string output = await _node.ExecuteProcessAsync(input, _encoding, _filePath);
 
-            var snapshotPoint = _view.Selection.ActivePoint;
+            VirtualSnapshotPoint snapshotPoint = _view.Selection.ActivePoint;
 
             if (string.IsNullOrEmpty(output) || input == output)
                 return false;
@@ -75,6 +77,8 @@ namespace JavaScriptPrettier
 
         public override int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (pguidCmdGroup == _commandGroup && prgCmds[0].cmdID == _commandId)
             {
                 if (_node != null)

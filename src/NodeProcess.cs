@@ -11,7 +11,7 @@ namespace JavaScriptPrettier
         public const string Packages = "prettier@1.12.1";
 
         private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
-        private static string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
+        private static readonly string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
 
         public bool IsInstalling
         {
@@ -24,7 +24,7 @@ namespace JavaScriptPrettier
             return File.Exists(_executable);
         }
 
-        public async Task<bool> EnsurePackageInstalled()
+        public async Task<bool> EnsurePackageInstalledAsync()
         {
             if (IsInstalling)
                 return false;
@@ -80,12 +80,12 @@ namespace JavaScriptPrettier
             }
         }
 
-        public async Task<string> ExecuteProcess(string input, Encoding encoding, string filePath)
+        public async Task<string> ExecuteProcessAsync(string input, Encoding encoding, string filePath)
         {
-            if (!await EnsurePackageInstalled())
+            if (!await EnsurePackageInstalledAsync())
                 return null;
 
-            var command = $"/c \"\"{_executable}\" --stdin-filepath \"{filePath}\" --stdin\"";
+            string command = $"/c \"\"{_executable}\" --stdin-filepath \"{filePath}\" --stdin\"";
 
             var start = new ProcessStartInfo("cmd", command)
             {

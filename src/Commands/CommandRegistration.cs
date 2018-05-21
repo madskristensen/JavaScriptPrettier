@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Editor;
+using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text;
@@ -25,7 +26,7 @@ namespace JavaScriptPrettier
         [Import]
         private ITextBufferUndoManagerProvider UndoProvider { get; set; }
 
-        public async void VsTextViewCreated(IVsTextView textViewAdapter)
+        public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
             IWpfTextView view = AdaptersFactory.GetWpfTextView(textViewAdapter);
 
@@ -39,30 +40,12 @@ namespace JavaScriptPrettier
 
             if (!node.IsReadyToExecute())
             {
-                await Install(node);
+                node.EnsurePackageInstalledAsync().ConfigureAwait(false);
             }
         }
-
-        private static async System.Threading.Tasks.Task Install(NodeProcess node)
-        {
-            var statusbar = (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar));
-
-            statusbar.FreezeOutput(0);
-            statusbar.SetText($"Installing {NodeProcess.Packages} npm module...");
-            statusbar.FreezeOutput(1);
-
-            bool success = await node.EnsurePackageInstalled();
-            string status = success ? "Done" : "Failed";
-
-            statusbar.FreezeOutput(0);
-            statusbar.SetText($"Installing {NodeProcess.Packages} npm module... {status}");
-            statusbar.FreezeOutput(1);
-        }
-
         private void AddCommandFilter(IVsTextView textViewAdapter, BaseCommand command)
         {
-
-            textViewAdapter.AddCommandFilter(command, out var next);
+            textViewAdapter.AddCommandFilter(command, out IOleCommandTarget next);
             command.Next = next;
         }
     }
