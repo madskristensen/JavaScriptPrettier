@@ -1,14 +1,13 @@
-﻿using EnvDTE;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
-using System;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Text;
 
 namespace JavaScriptPrettier
 {
