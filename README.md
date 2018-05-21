@@ -67,7 +67,7 @@ It is quite easy to setup Prettier to format alittle bit different. Like having 
 
 [Read more about the configuration file here](https://prettier.io/docs/en/configuration.html)
 
-#### Can it use my bundled version of prettier
+#### Can it use my bundled version of prettier?
 Sorry not yet - but you are welcome to help out implementing this feature :)
 
 
