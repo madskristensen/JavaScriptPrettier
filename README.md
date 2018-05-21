@@ -51,6 +51,10 @@ Invoke the command from the context menu in the JavaScript editor.
 
 ### FAQ
 
+#### Updating from 1.1 to 2.0
+Depending on your Visual Studio Configuration, you might experience that 2.0's output differs from the one you got with 1.1.  
+Most likely it is the tab size that has been changed from 4 spaces to 2. Please read the configuration section below on details how to get 4 spaces as tabsize.
+
 #### Configuration
 It is quite easy to setup Prettier to format alittle bit different. Like having 4 spaces instead of 2 spaces. The easiest way is to create a `.prettierrc` in your project root. Here is an example containing the two most common settings that people want to change: `tabWidth` is how many spaces it uses for indentation, and `printWidth` is how long a line can be before it breaks down:
 
