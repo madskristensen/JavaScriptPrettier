@@ -4,6 +4,7 @@
 - [ ] Move strings to resource file
 - [ ] Execute on document save
 - [ ] Execute on document format
+- [ ] Use your own version of Prettier
 
 Features that have a checkmark are complete and available for
 download in the
@@ -13,6 +14,12 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 2.0
+- [x] Updated tp prettier@1.12.1
+- [x] Ability to read and use the [prettier configuration](https://prettier.io/docs/en/configuration.html) specified in your project
+- [x] Tries to maintain your scroll position when formatting
+- [x] Disables the Visual Studio Formatting after using Prettier - so make your results consistent.
 
 ## 1.1
 

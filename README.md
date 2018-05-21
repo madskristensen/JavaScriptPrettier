@@ -15,6 +15,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 
 - Prettifies JavaScript
 - Uses [prettier](https://github.com/jlongster/prettier) node module
+- Reads the standard [prettier configuration file](https://prettier.io/docs/en/configuration.html)
 
 ### Prettify
 This extension calls the [prettier](https://github.com/jlongster/prettier) node module behind the scenes to format any JavaScript document to its standards.
@@ -47,6 +48,24 @@ foo(
 Invoke the command from the context menu in the JavaScript editor.
 
 ![Context Menu](art/context-menu.png)
+
+### FAQ
+
+#### Configuration
+It is quite easy to setup Prettier to format alittle bit different. Like having 4 spaces instead of 2 spaces. The easiest way is to create a `.prettierrc` in your project root. Here is an example containing the two most common settings that people want to change: `tabWidth` is how many spaces it uses for indentation, and `printWidth` is how long a line can be before it breaks down:
+
+```json
+  {
+    "tabWidth": 4,
+    "printWidth": 100
+  }
+```
+
+[Read more about the configuration file here](https://prettier.io/docs/en/configuration.html)
+
+#### Can it use my bundled version of prettier
+Sorry not yet - but you are welcome to help out implementing this feature :)
+
 
 ## Contribute
 Check out the [contribution guidelines](.github/CONTRIBUTING.md)
