@@ -7,13 +7,13 @@ or get the [CI build](http://vsixgallery.com/extension/J1da7ad9e-85b3-4a0c-8e45-
 
 ---------------------------------------
 
-Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.
+Prettier is an opinionated JavaScript formatter inspired by refmt with advanced support for language features from ES2017, JSX, TypeScript and Flow. It removes all original styling and ensures that all outputted JavaScript conforms to a consistent style.
 
 See the [change log](CHANGELOG.md) for changes and road map.
 
 ## Features
 
-- Prettifies JavaScript
+- Prettifies JavaScript or TypeScript files
 - Uses [prettier](https://github.com/jlongster/prettier) node module
 - Reads the standard [prettier configuration file](https://prettier.io/docs/en/configuration.html)
 
