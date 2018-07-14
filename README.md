@@ -14,7 +14,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 ## Features
 
 - Prettifies JavaScript or TypeScript files
-- Uses [prettier](https://github.com/jlongster/prettier) node module
+- Uses [prettier](https://github.com/jlongster/prettier) node module (uses local version or falls back to plugin version)
 - Reads the standard [prettier configuration file](https://prettier.io/docs/en/configuration.html)
 
 ### Prettify
