@@ -85,7 +85,15 @@ namespace JavaScriptPrettier
             if (!await EnsurePackageInstalledAsync())
                 return null;
 
-            string command = $"/c \"\"{_executable}\" --stdin-filepath \"{filePath}\" --stdin\"";
+            string executable = FindPrettierExecutable(filePath);
+            if (executable == null)
+            {
+                Logger.Log("No local prettier found. Falling back to plugin version");
+
+                executable = _executable;
+            }
+
+            string command = $"/c \"\"{executable}\" --stdin-filepath \"{filePath}\" --stdin\"";
 
             var start = new ProcessStartInfo("cmd", command)
             {
@@ -124,6 +132,27 @@ namespace JavaScriptPrettier
                 Logger.Log(ex);
                 return null;
             }
+        }
+
+        private string FindPrettierExecutable(string filePath)
+        {
+            string currentDir = filePath;
+
+            while ((currentDir = Path.GetDirectoryName(currentDir)) != null)
+            {
+                if (File.Exists(Path.Combine(currentDir, "package.json")))
+                {
+                    string executable = Path.Combine(currentDir, @"node_modules\.bin\prettier.cmd");
+                    if (File.Exists(executable))
+                    {
+                        Logger.Log($"Using prettier from {executable}");
+                        return executable;
+                    }
+                }
+                // If not, move a level up and try again.
+            }
+
+            return null;
         }
 
         private static void ModifyPathVariable(ProcessStartInfo start)
