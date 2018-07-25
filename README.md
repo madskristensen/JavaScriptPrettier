@@ -68,8 +68,7 @@ It is quite easy to setup Prettier to format alittle bit different. Like having 
 [Read more about the configuration file here](https://prettier.io/docs/en/configuration.html)
 
 #### Can it use my bundled version of prettier?
-Sorry not yet - but you are welcome to help out implementing this feature :)
-
+Yes, the plugin will search for a locally installed prettier version before falling back to its own version.
 
 ## Contribute
 Check out the [contribution guidelines](.github/CONTRIBUTING.md)
