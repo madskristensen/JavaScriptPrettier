@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -12,6 +13,12 @@ namespace JavaScriptPrettier
 
         private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
         private static readonly string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
+        private static readonly string[] _supportedExtensionRegexes = new string[] { ".jsx?", ".tsx?" };
+        private static readonly IDictionary<string, string> _specificExtensionCommandMap = new Dictionary<string, string> // TODO: better name
+        {
+            { ".jsx?", "node_modules\\.bin\\prettier-eslint.cmd" },
+            { ".tsx?", "node_modules\\.bin\\prettier-tslint.cmd" }
+        };
 
         public bool IsInstalling
         {
@@ -85,7 +92,7 @@ namespace JavaScriptPrettier
             if (!await EnsurePackageInstalledAsync())
                 return null;
 
-            string executable = FindPrettierExecutable(filePath);
+            var executable = FindPrettierExecutable(filePath);
             if (executable == null)
             {
                 Logger.Log("No local prettier found. Falling back to plugin version");
