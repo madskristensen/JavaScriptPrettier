@@ -15,6 +15,10 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 2.1
+- [x] Ability to use a locally installed prettier version before using internal version
+- [x] New "Format On Save" option in Tools->Options->Prettier
+
 ## 2.0
 - [x] Updated to prettier@1.12.1
 - [x] Ability to read and use the [prettier configuration](https://prettier.io/docs/en/configuration.html) specified in your project

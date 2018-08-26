@@ -92,7 +92,7 @@ namespace JavaScriptPrettier
             if (!await EnsurePackageInstalledAsync())
                 return null;
 
-            var executable = FindPrettierExecutable(filePath);
+            string executable = FindPrettierExecutable(filePath);
             if (executable == null)
             {
                 Logger.Log("No local prettier found. Falling back to plugin version");
