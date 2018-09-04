@@ -13,12 +13,6 @@ namespace JavaScriptPrettier
 
         private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
         private static readonly string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
-        private static readonly string[] _supportedExtensionRegexes = new string[] { ".jsx?", ".tsx?" };
-        private static readonly IDictionary<string, string> _specificExtensionCommandMap = new Dictionary<string, string> // TODO: better name
-        {
-            { ".jsx?", "node_modules\\.bin\\prettier-eslint.cmd" },
-            { ".tsx?", "node_modules\\.bin\\prettier-tslint.cmd" }
-        };
 
         public bool IsInstalling
         {
