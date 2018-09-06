@@ -48,7 +48,7 @@ namespace JavaScriptPrettier
             return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
         }
 
-        private async Task<bool> MakePrettierAsync()
+        public async Task<bool> MakePrettierAsync()
         {
             string input = _view.TextBuffer.CurrentSnapshot.GetText();
             string output = await _node.ExecuteProcessAsync(input, _encoding, _filePath);
