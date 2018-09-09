@@ -47,8 +47,8 @@ namespace JavaScriptPrettier
                         return VSConstants.S_OK;
                     }
 
-                    PrettierCommand cmd = wpfTextView.Properties.GetProperty<PrettierCommand>("prettierCommand");
-                    if (cmd != null)
+                    PrettierCommand cmd;
+                    if (wpfTextView.Properties.TryGetProperty<PrettierCommand>("prettierCommand", out cmd))
                     {
                         ThreadHelper.JoinableTaskFactory.Run(() => cmd.MakePrettierAsync());
                     }
