@@ -67,7 +67,8 @@ namespace JavaScriptPrettier
                 undo.Complete();
             }
 
-            var newSnapshotPoint = new SnapshotPoint(_view.TextBuffer.CurrentSnapshot, snapshotPoint.Position.Position);
+            var currSnapShot = _view.TextBuffer.CurrentSnapshot;
+            var newSnapshotPoint = new SnapshotPoint(currSnapShot, Math.Min(snapshotPoint.Position.Position, currSnapShot.Length));
             _view.Caret.MoveTo(newSnapshotPoint);
             _view.ViewScroller.EnsureSpanVisible(new SnapshotSpan(newSnapshotPoint, 0));
 
