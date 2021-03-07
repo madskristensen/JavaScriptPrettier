@@ -15,7 +15,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 
 - Prettifies JavaScript or TypeScript files
 - Uses [Prettier](https://github.com/jlongster/prettier) node module
-    - If a version of Prettier can be found in installed via npm relative to the current file, it will be used.
+    - If a version of Prettier can be found installed via npm locally (relative to the current file), it will be used.
     - If no local Prettier installation is found, the extension falls back to an embedded Prettier.
 - Reads the standard [Prettier configuration file](https://prettier.io/docs/en/configuration.html)
 
@@ -75,15 +75,15 @@ Here is an example containing the two most common settings that people want to c
 [Read more about Prettier configuration options here.](https://prettier.io/docs/en/options.html)
 
 #### Settings
-Access extension settings at Tools >>> Options, Prettier.
+Access extension settings within Visual Studio via Tools >>> Options, Prettier.
 
 1. Format on Save
     * If true, run Prettier whenever a JavaScript file is saved.
-    * (Try setting to true. This is where the magic happens!)
+    * (Try setting to true. This is where the magic happens, instantly snapping your code into place! Never fret with whitespace again!)
 2. Prettier version for embedded usage: 
     * If your solution does not have a local version of Prettier installed via npm, the extension will attempt to download and use the version noted here.
-    * Extension will download a requested version once and reuse that now embedded Prettier install.
-    * If the version declared cannot be found via npm, the setting will revert to 2.2.1, a known good Prettier version.
+    * Extension will download a requested version once and reuse that now embedded Prettier install until the setting requests another version.
+    * If the version declared cannot be found via npm, the extension will revert to 2.2.1, a known good Prettier version.
     * NOTE: To preserve legacy behavior, note that previous 2.x versions of this extension used Prettier 1.12.1.
 
 #### Can it use my bundled version of Prettier?
