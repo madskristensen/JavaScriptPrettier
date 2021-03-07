@@ -22,13 +22,14 @@ namespace JavaScriptPrettier
         private readonly Encoding _encoding;
         private readonly string _filePath;
 
-        public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, NodeProcess node, Encoding encoding, string filePath)
+        public PrettierCommand(IWpfTextView view, ITextBufferUndoManager undoManager, Encoding encoding, string filePath)
         {
             _view = view;
             _undoManager = undoManager;
-            _node = node;
             _encoding = encoding;
             _filePath = filePath;
+
+            _node = PrettierPackage._node;
         }
 
         public override int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)

@@ -18,6 +18,8 @@ namespace JavaScriptPrettier
     [ProvideAutoLoad(cmdUiContextGuid: VSConstants.UICONTEXT.NotBuildingAndNotDebugging_string, flags: PackageAutoLoadFlags.BackgroundLoad)]
     public sealed class PrettierPackage : AsyncPackage
     {
+        internal static NodeProcess _node;
+
         internal DTE2 _dte;
         internal RunningDocumentTable _runningDocTable;
         internal OptionPageGrid optionPage;
@@ -33,6 +35,14 @@ namespace JavaScriptPrettier
             _runningDocTable.Advise(new RunningDocTableEventsHandler(this));
 
             optionPage = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+            _node = new NodeProcess(this);
+
+            if (!_node.IsReadyToExecute())
+            {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                _node.EnsurePackageInstalledAsync().ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
 
             await base.InitializeAsync(cancellationToken, progress);
         }
@@ -44,5 +54,16 @@ namespace JavaScriptPrettier
         [DisplayName("Format On Save")]
         [Description("Run Pretter whenever a file is saved")]
         public bool FormatOnSave { get; set; }
+
+        // Keep in sync with message below until interpolated strings
+        // can be used in the Description.
+        internal readonly string _prettierFallbackVersion = "2.2.1";
+
+        [Category("Prettier")]
+        [DisplayName("Prettier version for embedded usage")]
+        [Description("This extension downloads its own install of Prettier to run if " +
+            "Prettier is not installed via npm in your local JavaScript project. " +
+            "If the version entered cannot be found, version 2.2.1 will be used as a fallback. ")]
+        public string EmbeddedVersion { get; set; } = "1.12.1";
     }
 }

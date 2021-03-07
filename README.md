@@ -14,11 +14,13 @@ See the [change log](CHANGELOG.md) for changes and road map.
 ## Features
 
 - Prettifies JavaScript or TypeScript files
-- Uses [prettier](https://github.com/jlongster/prettier) node module (uses local version or falls back to plugin version)
-- Reads the standard [prettier configuration file](https://prettier.io/docs/en/configuration.html)
+- Uses [Prettier](https://github.com/jlongster/prettier) node module
+    - If a version of Prettier can be found in installed via npm relative to the current file, it will be used.
+    - If no local Prettier installation is found, the extension falls back to an embedded Prettier.
+- Reads the standard [Prettier configuration file](https://prettier.io/docs/en/configuration.html)
 
 ### Prettify
-This extension calls the [prettier](https://github.com/jlongster/prettier) node module behind the scenes to format any JavaScript document to its standards.
+This extension calls the [Prettier](https://github.com/jlongster/prettier) node module behind the scenes to format any JavaScript document to its standards.
 
 For example, take the following code:
 
@@ -53,10 +55,15 @@ Invoke the command from the context menu in the JavaScript editor.
 
 #### Updating from 1.1 to 2.0
 Depending on your Visual Studio Configuration, you might experience that 2.0's output differs from the one you got with 1.1.  
+
 Most likely it is the tab size that has been changed from 4 spaces to 2. Please read the configuration section below on details how to get 4 spaces as tabsize.
 
-#### Configuration
-It is quite easy to setup Prettier to format alittle bit different. Like having 4 spaces instead of 2 spaces. The easiest way is to create a `.prettierrc` in your project root. Here is an example containing the two most common settings that people want to change: `tabWidth` is how many spaces it uses for indentation, and `printWidth` is how long a line can be before it breaks down:
+#### Configuration via .prettierrc
+It is quite easy to setup Prettier to format a little bit differently, like having 4 spaces instead of 2 spaces per tab. 
+
+The easiest way is to [create a `.prettierrc`](https://prettier.io/docs/en/configuration.html) file in your project root. 
+
+Here is an example containing the two most common settings that people want to change: `tabWidth` is how many spaces it uses for indentation, and `printWidth` is how long a line can be before it breaks down:
 
 ```json
   {
@@ -65,10 +72,24 @@ It is quite easy to setup Prettier to format alittle bit different. Like having 
   }
 ```
 
-[Read more about the configuration file here](https://prettier.io/docs/en/configuration.html)
+[Read more about Prettier configuration options here.](https://prettier.io/docs/en/options.html)
 
-#### Can it use my bundled version of prettier?
-Yes, the plugin will search for a locally installed prettier version before falling back to its own version.
+#### Settings
+Access extension settings at Tools >>> Options, Prettier.
+
+1. Format on Save
+    * If true, run Prettier whenever a JavaScript file is saved.
+    * (Try setting to true. This is where the magic happens!)
+2. Prettier version for embedded usage: 
+    * If your solution does not have a local version of Prettier installed via npm, the extension will attempt to download and use the version noted here.
+    * Extension will download a requested version once and reuse that now embedded Prettier install.
+    * If the version declared cannot be found via npm, the setting will revert to 2.2.1, a known good Prettier version.
+    * NOTE: To preserve legacy behavior, note that previous 2.x versions of this extension used Prettier 1.12.1.
+
+#### Can it use my bundled version of Prettier?
+Yes, the plugin will search for a locally (relative to the open file) installed Prettier version before falling back to its own version. 
+
+It does ***not*** currently support using a globally installed version of Prettier, and will use its embedded version instead.
 
 ## Contribute
 Check out the [contribution guidelines](.github/CONTRIBUTING.md)
