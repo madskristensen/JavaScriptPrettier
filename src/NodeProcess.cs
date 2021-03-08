@@ -8,10 +8,17 @@ namespace JavaScriptPrettier
 {
     internal class NodeProcess
     {
-        public const string Packages = "prettier@1.12.1";
+        private PrettierPackage _package;
+        private string _installDir;
+        private string _executable;
 
-        private static string _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, Packages.GetHashCode().ToString());
-        private static readonly string _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
+        private string _packages
+        {
+            get
+            {
+                return $"prettier@{_package.optionPage.EmbeddedVersion}";
+            }
+        }
 
         public bool IsInstalling
         {
@@ -24,8 +31,18 @@ namespace JavaScriptPrettier
             return File.Exists(_executable);
         }
 
+        public NodeProcess(PrettierPackage package)
+        {
+            _package = package;
+        }
+
         public async Task<bool> EnsurePackageInstalledAsync()
         {
+            // These values are refreshed on each run to ensure they match the Prettier version
+            // value currently in settings (OptionPageGrid.EmbeddedVersion).
+            _installDir = Path.Combine(Path.GetTempPath(), Vsix.Name, _packages.GetHashCode().ToString());
+            _executable = Path.Combine(_installDir, "node_modules\\.bin\\prettier.cmd");
+
             if (IsInstalling)
                 return false;
 
@@ -36,38 +53,7 @@ namespace JavaScriptPrettier
 
             try
             {
-                if (!Directory.Exists(_installDir))
-                    Directory.CreateDirectory(_installDir);
-
-                Logger.Log($"npm init -y & npm install {Packages} (this can take a few minutes)");
-
-                var start = new ProcessStartInfo("cmd", $"/c npm init -y & npm install {Packages}")
-                {
-                    WorkingDirectory = _installDir,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    StandardOutputEncoding = Encoding.UTF8,
-                    StandardErrorEncoding = Encoding.UTF8,
-                };
-
-                ModifyPathVariable(start);
-
-                using (var proc = Process.Start(start))
-                {
-                    string output = await proc.StandardOutput.ReadToEndAsync();
-                    string error = await proc.StandardError.ReadToEndAsync();
-
-                    if (!string.IsNullOrEmpty(output))
-                        Logger.Log(output);
-
-                    if (!string.IsNullOrEmpty(error))
-                        Logger.Log(error);
-
-                    proc.WaitForExit();
-                    return proc.ExitCode == 0;
-                }
+                return await InstallEmbeddedPrettierAsync();
             }
             catch (Exception ex)
             {
@@ -80,7 +66,8 @@ namespace JavaScriptPrettier
             }
         }
 
-        public async Task<string> ExecuteProcessAsync(string input, Encoding encoding, string filePath)
+        public async Task<string> ExecuteProcessAsync(string input, Encoding encoding,
+            string filePath)
         {
             if (!await EnsurePackageInstalledAsync())
                 return null;
@@ -132,6 +119,52 @@ namespace JavaScriptPrettier
                 Logger.Log(ex);
                 return null;
             }
+        }
+
+        private async Task<bool> InstallEmbeddedPrettierAsync()
+        {
+            if (!Directory.Exists(_installDir))
+                Directory.CreateDirectory(_installDir);
+
+            Logger.Log($"npm init -y & npm install {_packages} (this can take a few minutes)");
+
+            var start = new ProcessStartInfo("cmd", $"/c npm init -y & npm install {_packages}")
+            {
+                WorkingDirectory = _installDir,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8,
+            };
+
+            ModifyPathVariable(start);
+
+            using (var proc = Process.Start(start))
+            {
+                string output = await proc.StandardOutput.ReadToEndAsync();
+                string error = await proc.StandardError.ReadToEndAsync();
+
+                if (!string.IsNullOrEmpty(output))
+                    Logger.Log(output);
+
+                if (!string.IsNullOrEmpty(error))
+                    Logger.Log(error);
+
+                if (
+                    error.Contains("code ETARGET")
+                    && !_package.optionPage.EmbeddedVersion.Equals(_package.optionPage._prettierFallbackVersion)
+                )
+                {
+                    _package.optionPage.EmbeddedVersion = _package.optionPage._prettierFallbackVersion;
+                    return await InstallEmbeddedPrettierAsync();
+                }
+
+                proc.WaitForExit();
+                return proc.ExitCode == 0;
+            }
+
         }
 
         private string FindPrettierExecutable(string filePath)

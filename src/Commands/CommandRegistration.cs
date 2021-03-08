@@ -32,17 +32,11 @@ namespace JavaScriptPrettier
                 return;
 
             ITextBufferUndoManager undoManager = UndoProvider.GetTextBufferUndoManager(view.TextBuffer);
-            NodeProcess node = view.Properties.GetOrCreateSingletonProperty(() => new NodeProcess());
 
-            var cmd = new PrettierCommand(view, undoManager, node, doc.Encoding, doc.FilePath);
+            var cmd = new PrettierCommand(view, undoManager, doc.Encoding, doc.FilePath);
             view.Properties.AddProperty("prettierCommand", cmd);
 
             AddCommandFilter(textViewAdapter, cmd);
-
-            if (!node.IsReadyToExecute())
-            {
-                node.EnsurePackageInstalledAsync().ConfigureAwait(false);
-            }
         }
         private void AddCommandFilter(IVsTextView textViewAdapter, BaseCommand command)
         {
