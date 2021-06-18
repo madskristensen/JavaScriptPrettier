@@ -52,7 +52,7 @@ namespace JavaScriptPrettier
     {
         [Category("Prettier")]
         [DisplayName("Format On Save")]
-        [Description("Run Pretter whenever a file is saved")]
+        [Description("Run Prettier whenever a file is saved")]
         public bool FormatOnSave { get; set; }
 
         // Keep in sync with message below until interpolated strings
